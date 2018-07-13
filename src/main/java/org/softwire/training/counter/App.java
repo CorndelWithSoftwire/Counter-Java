@@ -3,6 +3,7 @@ package org.softwire.training.counter;
 import org.softwire.training.counter.items.Apple;
 import org.softwire.training.counter.items.Box;
 import org.softwire.training.counter.items.Cart;
+import org.softwire.training.counter.items.Colour;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,20 +11,20 @@ import java.util.List;
 public class App {
     public static void main(String[] argv) {
         // Some things to count
-        List<Apple> someApples = Arrays.asList(new Apple(), new Apple(), new Apple());
+        List<Apple> someApples = Arrays.asList(new Apple(Colour.RED), new Apple(Colour.RED), new Apple(Colour.GREEN));
 
         Box<Apple> boxOfApples = new Box<>();
-        boxOfApples.add(new Apple());
-        boxOfApples.add(new Apple());
+        boxOfApples.add(new Apple(Colour.RED));
+        boxOfApples.add(new Apple(Colour.GREEN));
 
         Cart<Apple> cart = new Cart<>();
         cart.add(boxOfApples);
 
         // Some counters
-        Counter<Apple> appleCounter = new Counter<>();
+        Counter<Apple> appleCounter = new Counter<>(apple -> apple.getColour().equals(Colour.RED));
         someApples.forEach(appleCounter::add);
 
-        System.out.println(appleCounter.getCount()); // Should be 3
+        System.out.println(appleCounter.getCount()); // Should be 2 because only 2 of them are red
 
         Counter<Cart<Apple>> cartCounter = new Counter<>();
         cartCounter.add(cart);
